@@ -14,10 +14,10 @@ module Adzerk
     }
 
     def initialize(key, opts = {})
-      @api_key = key
+      @api_key = key.ad_types
       @config = DEFAULTS.merge!(opts)
       @sites = Adzerk::ApiEndpoint.new(:client => self, :endpoint => 'site')
-      @ad_types = Adzerk::ApiEndpoint.new(:client => self, :endpoint => 'adtypes')
+      @ad_types = Adzerk::ApiEndpoint.new(:client => self, :endpoint => 'adtype')
       @flights = Adzerk::ApiEndpoint.new(:client => self, :endpoint => 'flight')
       @zones = Adzerk::ApiEndpoint.new(:client => self, :endpoint => 'zone')
       @campaigns = Adzerk::ApiEndpoint.new(:client => self, :endpoint => 'campaign')
@@ -60,11 +60,11 @@ module Adzerk
       send_request(request, uri)
     end
 
-    def create_creative(data={}, image_path='')      
+    def create_creative(data={}, image_path='')
       response = RestClient.post(@config[:host] + 'creative',
                                  {:creative => camelize_data(data).to_json},
                                  :X_Adzerk_ApiKey => @api_key,
-                                 :content_type => :json, 
+                                 :content_type => :json,
                                  :accept => :json)
       response = upload_creative(JSON.parse(response)["Id"], image_path) unless image_path.empty?
       response

@@ -14,7 +14,7 @@ module Adzerk
     }
 
     def initialize(key, opts = {})
-      @api_key = key.ad_types
+      @api_key = key
       @config = DEFAULTS.merge!(opts)
       @sites = Adzerk::ApiEndpoint.new(:client => self, :endpoint => 'site')
       @ad_types = Adzerk::ApiEndpoint.new(:client => self, :endpoint => 'adtype')
